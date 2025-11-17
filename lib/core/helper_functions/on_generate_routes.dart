@@ -1,3 +1,4 @@
+import 'package:ecomerce_market/features/auth/presentation/views/signin_view.dart';
 import 'package:ecomerce_market/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:ecomerce_market/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const SplashView());
     case OnBoardingView.routeName:
       return MaterialPageRoute(builder: (context) => const OnBoardingView());
+    case LogInView.routeName:
+      return MaterialPageRoute(builder: (_) => const LogInView());
     default:
       return MaterialPageRoute(builder: (context) => const Scaffold());
   }
