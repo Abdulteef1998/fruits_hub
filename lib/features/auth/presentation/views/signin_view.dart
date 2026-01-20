@@ -5,6 +5,6 @@ class LogInView extends StatelessWidget {
   static const routeName = 'login';
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(body: Center(child: Text('LoGin')));
   }
 }
