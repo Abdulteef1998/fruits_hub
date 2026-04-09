@@ -40,6 +40,8 @@ dependencies:
     sdk: flutter
   dots_indicator: ^4.0.1
   shared_preferences: ^2.5.3
+  svg_image: ^0.0.5
+  svg_clip: ^0.0.2
   
 
 dev_dependencies:

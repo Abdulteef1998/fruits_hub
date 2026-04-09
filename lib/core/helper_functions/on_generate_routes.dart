@@ -1,4 +1,4 @@
-import 'package:ecomerce_market/features/auth/presentation/views/signin_view.dart';
+import 'package:ecomerce_market/features/auth/presentation/views/login_view.dart';
 import 'package:ecomerce_market/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:ecomerce_market/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
