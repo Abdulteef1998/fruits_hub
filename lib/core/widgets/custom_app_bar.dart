@@ -11,10 +11,6 @@ AppBar buildAppBar(context, {required String title}) {
       child: Icon(Icons.arrow_back_ios_new),
     ),
     centerTitle: true,
-    title: Text(
-      'تسجيل دخول',
-      style: TextStyles.bold19,
-      textAlign: TextAlign.center,
-    ),
+    title: Text(title, style: TextStyles.bold19, textAlign: TextAlign.center),
   );
 }
