@@ -42,6 +42,9 @@ dependencies:
   shared_preferences: ^2.5.3
   svg_image: ^0.0.5
   svg_clip: ^0.0.2
+  firebase_core: ^4.7.0
+  dartz: ^0.10.1
+  firebase_auth: ^6.4.0
   
 
 dev_dependencies:
