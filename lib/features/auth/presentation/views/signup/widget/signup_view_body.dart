@@ -1,48 +1,96 @@
 import 'package:ecomerce_market/constant.dart';
+import 'package:ecomerce_market/core/helper_functions/build_error_bar.dart';
 import 'package:ecomerce_market/core/widgets/custom_button.dart';
 import 'package:ecomerce_market/core/widgets/custom_text_form_field.dart';
+import 'package:ecomerce_market/core/widgets/password_field.dart';
+import 'package:ecomerce_market/features/auth/presentation/views/cubits/cubit/signup_cubit.dart';
 import 'package:ecomerce_market/features/auth/presentation/views/signup/widget/lib/features/auth/presentation/views/widgets/terms_and_conditions.dart';
 import 'package:ecomerce_market/features/splash/presentation/views/widgets/have_an_account_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignupViewBody extends StatelessWidget {
+class SignupViewBody extends StatefulWidget {
   const SignupViewBody({super.key});
+
+  @override
+  State<SignupViewBody> createState() => _SignupViewBodyState();
+}
+
+class _SignupViewBodyState extends State<SignupViewBody> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  String? email, userName, password;
+  late bool isTermsAccepted = false;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kHorizintalPadding),
-        child: Column(
-          children: [
-            const SizedBox(height: 24),
-            CustomTextFormField(
-              hintText: 'الاسم الكامل',
-              textInputType: TextInputType.name,
-            ),
-            const SizedBox(height: 16),
-            CustomTextFormField(
-              hintText: 'البريد الإلكتروني',
-              textInputType: TextInputType.emailAddress,
-            ),
-
-            const SizedBox(height: 16),
-            CustomTextFormField(
-              hintText: 'كلمة المرور',
-              textInputType: TextInputType.visiblePassword,
-              suffixIcon: Icon(Icons.remove_red_eye, color: Color(0xffC9CECF)),
-            ),
-            const SizedBox(height: 16),
-            TermsAndConditionsWidget(
-              onChanged: (value) {
-                // Handle terms and conditions change
-              },
-            ),
-            const SizedBox(height: 30),
-            CustomButton(onPress: () {}, text: 'انشاء حساب جديد'),
-            SizedBox(height: 26),
-            HaveAnAccountWidget(),
-          ],
+        child: Form(
+          key: formKey,
+          autovalidateMode: autovalidateMode,
+          child: Column(
+            children: [
+              const SizedBox(height: 24),
+              CustomTextFormField(
+                onSaved: (value) {
+                  userName = value;
+                },
+                hintText: 'الاسم الكامل',
+                textInputType: TextInputType.name,
+              ),
+              const SizedBox(height: 16),
+              CustomTextFormField(
+                onSaved: (value) {
+                  email = value;
+                },
+                hintText: 'البريد الإلكتروني',
+                textInputType: TextInputType.emailAddress,
+              ),
+              const SizedBox(height: 16),
+              PasswordField(
+                onSaved: (value) {
+                  password = value;
+                },
+              ),
+              const SizedBox(height: 16),
+              TermsAndConditionsWidget(
+                onChanged: (value) {
+                  isTermsAccepted = value;
+                },
+              ),
+              const SizedBox(height: 30),
+              CustomButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    if (isTermsAccepted) {
+                      context
+                          .read<SignupCubit>()
+                          .createUserWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                            name: userName,
+                          );
+                    } else {
+                      buildErrorBar(
+                        context,
+                        'يجب عليك الموافقة على الشروط والأحكام',
+                      );
+                    }
+                  } else {
+                    setState(() {
+                      autovalidateMode = AutovalidateMode.always;
+                    });
+                  }
+                },
+                text: 'انشاء حساب جديد',
+              ),
+              const SizedBox(height: 26),
+              const HaveAnAccountWidget(),
+            ],
+          ),
         ),
       ),
     );

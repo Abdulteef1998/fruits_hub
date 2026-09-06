@@ -11,18 +11,16 @@ class SignupCubit extends Cubit<SignupState> {
   final AuthRepo authRepo;
 
   Future<void> createUserWithEmailAndPassword({
-    required String email,
-    required String password,
-    required String name,
+    String? email,
+    String? password,
+    String? name,
   }) async {
     emit(SignupLoading());
-
     final result = await authRepo.createUserWithEmailAndPassword(
       email: email,
       password: password,
       name: name,
     );
-
     result.fold(
       (failure) => emit(SignupFailure(message: failure.message)),
       (userEntity) => emit(SignupSuccess(userEntity: userEntity)),
