@@ -57,4 +57,46 @@ class AuthRepoImpl extends AuthRepo {
       return left(ServerFailure('  لقد حدث خطأ ما. يرجى المحاولة مرة أخرى.  '));
     }
   }
+
+  @override
+  Future<Either<Failure, UserEntity>> signInWithGoogle() async {
+    try {
+      var user = await firebaseAuthService.signInWithGoogle();
+
+      return right(UserModel.fromFirebaseUser(user));
+    } on CustomException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      log('Exception in AuthRepoImpl.signInWithGoogle: ${e.toString()}');
+      return left(ServerFailure('  لقد حدث خطأ ما. يرجى المحاولة مرة أخرى.  '));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> signInWithFacebook() async {
+    try {
+      var user = await firebaseAuthService.signInWithFacebook();
+
+      return right(UserModel.fromFirebaseUser(user));
+    } on CustomException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      log('Exception in AuthRepoImpl.signInWithFacebook: ${e.toString()}');
+      return left(ServerFailure('  لقد حدث خطأ ما. يرجى المحاولة مرة أخرى.  '));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> signInWithApple() async {
+    try {
+      var user = await firebaseAuthService.signInWithApple();
+
+      return right(UserModel.fromFirebaseUser(user));
+    } on CustomException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      log('Exception in AuthRepoImpl.signInWithApple: ${e.toString()}');
+      return left(ServerFailure('  لقد حدث خطأ ما. يرجى المحاولة مرة أخرى.  '));
+    }
+  }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ecomerce_market/constant.dart';
 import 'package:ecomerce_market/core/utils/app_colors.dart';
 import 'package:ecomerce_market/core/utils/app_images.dart';
@@ -21,7 +23,7 @@ class SigninViewBody extends StatefulWidget {
 
 class _SigninViewBodyState extends State<SigninViewBody> {
   late String email, password;
-    AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -60,19 +62,21 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 ],
               ),
               SizedBox(height: 33),
-              CustomButton(onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  formKey.currentState!.save();
-                  context.read<SigninCubit>().signInWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      )
-                  ;
-                } else {
-                  autovalidateMode == AutovalidateMode.always;
-                  setState(() {});
-                }
-              }, text: 'تسجيل الدخول'),
+              CustomButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    context.read<SigninCubit>().signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+                  } else {
+                    autovalidateMode == AutovalidateMode.always;
+                    setState(() {});
+                  }
+                },
+                text: 'تسجيل الدخول',
+              ),
 
               SizedBox(height: 16),
               DontHaveAnAccountWidget(),
@@ -81,19 +85,31 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               SocialLoginButton(
                 title: 'تسجيل الدخول  بواسطة جوجل',
                 image: Assets.imagesGoogleIcon,
-                onPressed: () {},
+                onPressed: () {
+                  context.read<SigninCubit>().signInWithGoogle();
+                },
               ),
               SizedBox(height: 16),
-              SocialLoginButton(
-                title: 'تسجيل الدخول  بواسطة أبل',
-                image: Assets.imagesApplIcon,
-                onPressed: () {},
-              ),
-              SizedBox(height: 16),
+              Platform.isIOS
+                  ? Column(
+                      children: [
+                        SocialLoginButton(
+                          title: 'تسجيل الدخول  بواسطة أبل',
+                          image: Assets.imagesApplIcon,
+                          onPressed: () {
+                            context.read<SigninCubit>().signInWithApple();
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    )
+                  : SizedBox(),
               SocialLoginButton(
                 title: 'تسجيل الدخول  بواسطة فيسبوك',
                 image: Assets.imagesFacebookIcon,
-                onPressed: () {},
+                onPressed: () {
+                  context.read<SigninCubit>().signInWithFacebook();
+                },
               ),
             ],
           ),
