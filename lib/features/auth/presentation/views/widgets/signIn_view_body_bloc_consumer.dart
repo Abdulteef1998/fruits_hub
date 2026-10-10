@@ -13,8 +13,9 @@ class SignInViewBodyBlocConsumer extends StatelessWidget {
     return BlocConsumer<SigninCubit, SigninState>(
       listener: (context, state) {
         if (state is SigninSuccess) {
-          // Handle success state, e.g., navigate to another screen
-        } else if (state is SigninFailure) {
+          Navigator.pushNamed(context, '/home_view');
+        }
+        if (state is SigninFailure) {
           buildErrorBar(context, state.message);
         }
       },
