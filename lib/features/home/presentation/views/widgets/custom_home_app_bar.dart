@@ -25,7 +25,7 @@ class CustomHomeAppBar extends StatelessWidget {
         style: TextStyles.regular16.copyWith(color: const Color(0xFF949D9E)),
       ),
       subtitle: Text(
-        'محمد أحمد',
+        ' عبد اللطيف الجنابي',
         textAlign: TextAlign.right,
         style: TextStyles.bold16,
       ),
